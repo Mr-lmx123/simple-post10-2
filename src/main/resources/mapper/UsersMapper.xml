@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.massz.dao.UsersDao">
+
+
+
+    <select id="findUsersByUserName" parameterType="String" resultType="com.massz.model.Users">
+        select
+        user_id userId,
+        user_name userName,
+        password,
+        nick_name nickName,
+        phone,
+        avatar
+        from users
+        where user_name = #{userName}
+    </select>
+
+    <insert id="insertUsers" parameterType="com.massz.model.Users">
+        insert into users(user_name,password,nick_name) values (#{userName},#{password},#{nickName})
+    </insert>
+
+    <select id="findUserInfo" parameterType="int" resultType="com.massz.model.Users">
+        SELECT
+	(
+	SELECT
+		count(*) FROM post m WHERE m.user_id = a.user_id ) postNum
+	FROM
+		users a
+    WHERE
+        a.user_id = #{userId}
+    </select>
+</mapper>

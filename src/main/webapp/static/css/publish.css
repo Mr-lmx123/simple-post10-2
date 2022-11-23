@@ -1,0 +1,24 @@
+.my-form{
+	margin: 20px 0px 0;
+}
+.mui-input-group{
+	margin: 0 5px;
+}
+input{
+	padding:0 10px;
+}
+.my-css{
+	padding: 5px;
+}
+.mui-input-row{
+    line-height: 40px;
+}
+.mui-btn{
+	text-align: left;
+}
+.select-bar{
+	padding: 0 5px;
+}
+.mui-btn-block{
+	padding: 10px 0;
+}

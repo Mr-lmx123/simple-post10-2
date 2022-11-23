@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.massz.dao.PostDao">
+    <insert id="insertPost" parameterType="com.massz.model.Post" useGeneratedKeys="true" keyProperty="postId">
+        insert into post(post_title,content,bar_id,user_id) values(#{postTitle},#{content},#{barId},#{userId})
+    </insert>
+
+    <resultMap id="postData" type="com.massz.model.Post">
+        <id property="postId" column="postId"></id>
+        <collection property="postImgList" column="postId" select="selectPostImg"></collection>
+    </resultMap>
+
+    <select id="selectPostImg" resultType="com.massz.model.PostImg">
+        select pic_name picName from post_img where post_id = #{postId}
+    </select>
+
+    <select id="getPostList" parameterType="com.massz.model.Post" resultMap="postData">
+        select
+        post_id postId,
+        post_title postTitle,
+        b.bar_name barName,
+        a.create_time createTime,
+        a.secret,
+        (select count(*) from post_like m where m.post_id = a.post_id) likeNum,
+        (select count(*) from post_like m where m.post_id = a.post_id and m.user_id=#{userId}) myLike
+        from post a
+        left join bar b on a.bar_id = b.bar_id
+        <where>
+            <if test="userId != null and userId != ''">
+                a.user_id =#{userId}
+            </if>
+        </where>
+        order by post_id desc
+    </select>
+</mapper>
